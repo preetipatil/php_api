@@ -14,7 +14,7 @@ AC1.2 ->  USER LOGIN
 GIVEN:  User Login api
 WHEN:   Provide Invalid details email and password
 THEN:   User should not be able to login
-AND:    "message": "NOT FOUND",
+AND:    "message": "Login failed",
         "status": "Failed",
         "code": "404"
 -------------------------------------------------------------------------
@@ -174,7 +174,7 @@ THEN:   "message" => "Fail"
 
  -------------------------------------------------------------------------
 
-AC4.1  RETRIEVE COUPON
+AC4.3  RETRIEVE COUPON
 GIVEN:  find coupon api and ADMIN(jwt) USER logged in
 WHEN:   Provide valid details and INvalid JWT
         “id”: “5",
@@ -260,7 +260,7 @@ THEN:   List all Coupons
 
    AC5.3  List COUPONS
    GIVEN:  find all coupon api and ADMIN or CUSTOMER(jwt) USER logged in
-   WHEN:   Provide invalid details and  JWT
+   WHEN:   Provide invalid details or  JWT
            value" : "20",
             "limit" : "10",
             "sortbydate" : "asc",

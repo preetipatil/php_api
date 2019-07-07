@@ -63,6 +63,10 @@ ex:http://localhost/php_test/api/user_login.php
 
 4. Click "Send" button ND  Output will be displayed.
 
+
+OUTPUT:
+output folder shows screenshot of testing API in postman as per bdd.txt
+
 /* API
 */
  ---------------------------------------------------------------------------
