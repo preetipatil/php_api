@@ -1,0 +1,273 @@
+
+
+AC1.1 ->  USER LOGIN
+GIVEN:  User Login api
+WHEN:   Provide valid details email and password
+THEN:   User should be able to login
+AND:    have valid  "jwt"
+AND:    have valid  "message": "Successful login.",
+        "status": "Success",
+        "code": "200",
+-------------------------------------------------------------------------
+
+AC1.2 ->  USER LOGIN
+GIVEN:  User Login api
+WHEN:   Provide Invalid details email and password
+THEN:   User should not be able to login
+AND:    "message": "NOT FOUND",
+        "status": "Failed",
+        "code": "404"
+-------------------------------------------------------------------------
+
+AC1.3 -> USER LOGIN
+GIVEN:  User Login api
+WHEN:   Provide valid email and Invalid password
+THEN:   User should not be able to login
+AND:    "message": "Incorrect password",
+        "status": "Failed",
+        "code": "400"
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+AC2.1 -> CREATE COUPON
+GIVEN:  create coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide valid details JWT
+        “name”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt": valid JWT
+THEN:   User should be able to create coupon
+AND:    "message": "Access granted. Coupon was created.",
+        "status": "Success",
+        "code": "200"
+-------------------------------------------------------------------------
+
+AC2.2 -> CREATE COUPON
+GIVEN:  create coupon api and CUSTOMER(jwt) USER logged in
+WHEN:   Provide valid details JWT
+        “name”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt": valid JWT
+THEN:   User should not be able to create coupon
+AND:    "message": "Do not have admin access",
+        "status": "Failed",
+-------------------------------------------------------------------------
+
+AC2.3 -> CREATE COUPON
+GIVEN:  create coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide INvalid details and  valid JWT
+        “XXXname”: “Save £20 at Tesco”,
+        “xxbrand”: "",
+        “xxvalue”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt": valid JWT
+THEN:   User should not be able to create coupon
+AND:    "message": "Access granted. Unable to create Coupon.",
+        "status": "Failed",
+        "code": "400"
+
+-------------------------------------------------------------------------
+
+AC2.4 -> CREATE COUPON
+GIVEN:  create coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide valid details and  INvalid/Expired JWT
+        “name”: “Save £20 at Tesco”,
+        “brand”: "",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt": Invalid
+THEN:   User should not be able to create coupon
+AND:
+        "message": "Access denied.",
+        "status": "Failed",
+        "code": "401",
+        "error": "Expired token",
+        "jwt":
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+AC3.1 UPDATE COUPON
+GIVEN:  update coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide valid details JWT
+        “name”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt":  "valid jwt"
+THEN:   "message": "Access granted. Coupon was updated.",
+        "status": "Success",
+        "code": "200"
+
+-------------------------------------------------------------------------
+
+AC3.2 UPDATE COUPON
+GIVEN:  update coupon api and CUSTOMER(jwt) USER logged in
+WHEN:   Provide valid details JWT
+        "id":10,
+        “name”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt":  "invalid jwt"
+THEN:   "message": "Do not have admin access",
+        "status": "Failed"
+-------------------------------------------------------------------------
+
+AC3.3 UPDATE COUPON
+GIVEN:  update coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide invalid details and valid JWT
+        “nameXX”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt":  "valid jwt"
+THEN :  "message": "Access granted. Unable to update Coupon.",
+        "status": "Failed",
+        "code": "400"
+-------------------------------------------------------------------------
+
+AC3.4 UPDATE COUPON
+GIVEN:  update coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide valid details and invalid/expired JWT
+        “name”: “Save £20 at Tesco”,
+        “brand”: "Tesco",
+        “value”: 20,
+        “expiry”: “2019-03-01 10:15:53”
+        "jwt":  "invalid jwt"
+THEN :  "message": "Access denied.",
+        "status": "Failed",
+        "code": "401",
+        "error": "Expired token",
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+AC4.1  RETRIEVE COUPON
+GIVEN:  find coupon api and ADMIN or CUSTOMER(jwt) USER logged in
+WHEN:   Provide valid details JWT
+        “id”: “5",
+        "jwt":  "valid jwt"
+THEN:
+        "message": "Success",
+        "data": [
+            {
+                "id": "5",
+                "name": "tesco Express 5 points",
+                "brand": "tesco",
+                "value": "5",
+                "createdAt": "2019-07-08 09:21:08",
+                "expiry": "2019-07-12 23:00:00"
+            }
+        ]
+-------------------------------------------------------------------------
+
+AC4.2  RETRIEVE COUPON
+GIVEN:  find coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide invalid details and valid JWT
+        “idX”: “5",
+        "jwt":  "valid jwt"
+THEN:   "message" => "Fail"
+
+ -------------------------------------------------------------------------
+
+AC4.1  RETRIEVE COUPON
+GIVEN:  find coupon api and ADMIN(jwt) USER logged in
+WHEN:   Provide valid details and INvalid JWT
+        “id”: “5",
+        "jwt":  "Invalid jwt"
+THEN:   "message": "Access denied.",
+        "status": "Failed",
+        "code": "401",
+        "error": "Expired token",
+-------------------------------------------------------------------------
+ -------------------------------------------------------------------------
+ AC5.1  List COUPONS
+GIVEN:  find all coupon api and ADMIN or CUSTOMER(jwt) USER logged in
+WHEN:   Provide valid  JWT
+
+THEN:   List all Coupons
+               "message":"Success",
+               "count":3,
+                "data": [
+                    {
+                        "id": "1",
+                        "name": "Save £20 at Tesco",
+                        "brand": "Tesco",
+                        "value": "20",
+                        "createdAt": "2018-03-01 10:15:53",
+                        "expiry": "2019-07-07 23:00:00"
+                    },
+                    {
+                        "id": "2",
+                        "name": "asda 5 points",
+                        "brand": "asda",
+                        "value": "20",
+                        "createdAt": "2018-03-01 10:15:53",
+                        "expiry": "2019-07-07 23:00:00"
+                    },
+                    {
+                        "id": "3",
+                        "name": "Sainsbury 5 points",
+                        "brand": "sainsbury",
+                        "value": "20",
+                        "createdAt": "2018-03-01 10:15:53",
+                        "expiry": "2019-07-07 23:00:00"
+                    }]
+  -------------------------------------------------------------------------
+ AC5.2  List COUPONS
+ GIVEN:  find all coupon api and ADMIN or CUSTOMER(jwt) USER logged in
+ WHEN:   Provide valid details and  JWT
+         value" : "20",
+         "limit" : "10",
+         "sortbydate" : "asc",
+         "jwt":   valid
+ THEN:
+         {
+             "message": "Success",
+             "total":10,
+             "data": [
+                 {
+                     "id": "1",
+                     "name": "Save £20 at Tesco",
+                     "brand": "Tesco",
+                     "value": "20",
+                     "createdAt": "2018-03-01 10:15:53",
+                     "expiry": "2019-07-07 23:00:00"
+                 },
+                 {
+                     "id": "2",
+                     "name": "asda 5 points",
+                     "brand": "asda",
+                     "value": "20",
+                     "createdAt": "2018-03-01 10:15:53",
+                     "expiry": "2019-07-07 23:00:00"
+                 },
+                 {
+                     "id": "3",
+                     "name": "Sainsbury 5 points",
+                     "brand": "sainsbury",
+                     "value": "20",
+                     "createdAt": "2018-03-01 10:15:53",
+                     "expiry": "2019-07-07 23:00:00"
+                 }]
+          }
+
+   -------------------------------------------------------------------------
+
+   AC5.3  List COUPONS
+   GIVEN:  find all coupon api and ADMIN or CUSTOMER(jwt) USER logged in
+   WHEN:   Provide invalid details and  JWT
+           value" : "20",
+            "limit" : "10",
+            "sortbydate" : "asc",
+           "jwt":  "invalid jwt"
+   THEN:   "message":"Access denied.",
+           "status":"Failed",
+           "code":"401"
+
+   -------------------------------------------------------------------------
+
