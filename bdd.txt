@@ -4,7 +4,6 @@ AC1.1 ->  USER LOGIN
 GIVEN:  User Login api
 WHEN:   Provide valid details email and password
 THEN:   User should be able to login
-AND:    have valid  "jwt"
 AND:    have valid  "message": "Successful login.",
         "status": "Success",
         "code": "200",
